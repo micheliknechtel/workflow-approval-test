@@ -1,0 +1,24 @@
+name: approval-test
+on: [push, workflow_dispatch]
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "actor=${{ github.actor }} sender.type=${{ github.event.sender.type }}"
+  # Simulated "bot": replace micheliknechtel with my-app[bot]
+  gated-for-bot:
+    if: github.actor == 'micheliknechtel'
+    environment: bot-approval
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "approved bot run"
+  normal:
+    if: github.actor != 'micheliknechtel'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "normal run"
+  empty-env-test:
+    environment: ${{ github.actor == 'nobody[bot]' && 'bot-approval' || '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "empty environment string works"
