@@ -5,15 +5,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "actor=${{ github.actor }} sender.type=${{ github.event.sender.type }}"
-  # Simulated "bot": replace micheliknechtel with my-app[bot]
+  # Simulated "bot": real app actor
   gated-for-bot:
-    if: github.actor == 'micheliknechtel'
+    if: github.actor == 'approval-test-mk-b0236a[bot]'
     environment: bot-approval
     runs-on: ubuntu-latest
     steps:
       - run: echo "approved bot run"
   normal:
-    if: github.actor != 'micheliknechtel'
+    if: github.actor != 'approval-test-mk-b0236a[bot]'
     runs-on: ubuntu-latest
     steps:
       - run: echo "normal run"
